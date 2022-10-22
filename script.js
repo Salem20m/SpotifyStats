@@ -42,8 +42,10 @@ $('#callAPI').addEventListener('click', () => {
     api()
 })
 
+let before = '999999999999999'
+let songs = []
 async function api() {
-    const response = await fetch('https://api.spotify.com/v1/me', {
+    const response = await fetch('https://api.spotify.com/v1/me/top/tracks?limit=50' , {
         method: 'GET',
         headers: {
             'Content-Type': 'application/json',
@@ -53,6 +55,34 @@ async function api() {
 
     let data = await response.json() 
     c(data)
-    c(data.map(x => x))
+    c(data.items.map(x=> {
+        let o = {
+            name: x.name,
+            plays: x.popularity
+        }
+        return o
+    }
+        
+    ))
 
 }
+
+// let before = '999999999999999'
+// let songs = []
+// async function api() {
+//     const response = await fetch('https://api.spotify.com/v1/me/player/recently-played?limit=44' + '&before=' + before , {
+//         method: 'GET',
+//         headers: {
+//             'Content-Type': 'application/json',
+//             'Authorization': 'Bearer ' + access_token
+//           },
+//     })
+
+//     let data = await response.json() 
+//     before = data.cursors.before
+//     c(data)
+//     // c(data.items.map(x => x.track.name))
+//     songs = songs.concat(data.items.map(x => x.track.name))
+//     c(songs)
+
+// }
